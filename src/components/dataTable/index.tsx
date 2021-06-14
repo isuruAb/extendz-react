@@ -10,6 +10,8 @@ import TableRow from "@material-ui/core/TableRow";
 import Fab from "@material-ui/core/Fab";
 import AddIcon from "@material-ui/icons/Add";
 import "./styles.css";
+import { Link, useLocation } from "react-router-dom";
+
 interface IProps {
   data: any; //TODO: Types need to be defined
 }
@@ -67,6 +69,7 @@ const rows = [
 const DataTable: React.FC<IProps> = ({ data }) => {
   const [page, setPage] = useState(0);
   const [rowsPerPage, setRowsPerPage] = useState(10);
+  let location = useLocation();
 
   useEffect(() => {
     //TODO: GET request goes here
@@ -135,9 +138,11 @@ const DataTable: React.FC<IProps> = ({ data }) => {
           onChangeRowsPerPage={handleChangeRowsPerPage}
         />
       </Paper>
-      <Fab color="primary" aria-label="add" className="fabButton">
-        <AddIcon />
-      </Fab>
+      <Link to={location?.pathname + "/add"}>
+        <Fab color="primary" aria-label="add" className="fabButton">
+          <AddIcon />
+        </Fab>
+      </Link>
     </>
   );
 };
