@@ -4,6 +4,7 @@ import SaveIcon from "@material-ui/icons/Save";
 import { useState } from "react";
 import { ChangeEvent } from "react";
 import { useLocation } from "react-router-dom";
+import { Grid } from "@material-ui/core";
 
 interface IProps {
   data: any; //TODO: Types need to be defined
@@ -45,35 +46,36 @@ const CreateUpdateForm: React.FC<IProps> = ({ data }) => {
     } else {
       //Update record
     }
-
-    console.log("values", values);
   };
 
   return (
     <div>
       <form>
-        {fields?.map((field: any, index: number) => {
-          return (
-            <FormField
-              name={field?.name}
-              type={field?.type}
-              required={field?.required}
-              handleChange={handleChange}
-              width={{}}
-              values={values || ""}
-              error={errors[field?.name]}
-            />
-          );
-        })}
-        {console.log("data", data)}
-        <Fab
-          color="primary"
-          aria-label="add"
-          className="fabButton"
-          onClick={handleSave}
-        >
-          <SaveIcon />
-        </Fab>
+        <Grid container spacing={3}>
+          {fields?.map((field: any, index: number) => {
+            return (
+              <Grid item xs={4}>
+                <FormField
+                  name={field?.name}
+                  type={field?.type}
+                  required={field?.required}
+                  handleChange={handleChange}
+                  width={{}}
+                  values={values || ""}
+                  error={errors[field?.name]}
+                />
+              </Grid>
+            );
+          })}
+          <Fab
+            color="primary"
+            aria-label="add"
+            className="fabButton"
+            onClick={handleSave}
+          >
+            <SaveIcon />
+          </Fab>
+        </Grid>
       </form>
     </div>
   );

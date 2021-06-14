@@ -30,6 +30,7 @@ const FormField: React.FC<IProps> = ({
           label={name}
           onChange={handleChange}
           value={values[name]}
+          fullWidth
         />
       </>
     );
