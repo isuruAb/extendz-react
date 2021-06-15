@@ -12,7 +12,7 @@ import AddIcon from "@material-ui/icons/Add";
 import EditIcon from "@material-ui/icons/Edit";
 import { useDispatch } from "react-redux";
 
-import "./styles.css";
+import styles from "./index.module.scss";
 import { Link, useLocation, useHistory } from "react-router-dom";
 import { updateRow } from "../../redux/actions/row";
 
@@ -140,7 +140,10 @@ const DataTable: React.FC<IProps> = ({ data }) => {
                         );
                       })}
                       <TableCell>
-                        <EditIcon onClick={() => handleEdit(row)} />
+                        <EditIcon
+                          onClick={() => handleEdit(row)}
+                          className={styles.editButton}
+                        />
                       </TableCell>
                     </TableRow>
                   );

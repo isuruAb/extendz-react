@@ -1,4 +1,4 @@
-import {  Grid, makeStyles, Paper } from "@material-ui/core";
+import { Grid, makeStyles, Paper } from "@material-ui/core";
 import { Link } from "react-router-dom";
 
 interface IProps {
@@ -9,6 +9,11 @@ const useStyles = makeStyles((theme) => ({
     padding: theme.spacing(2),
     textAlign: "center",
     color: theme.palette.text.secondary,
+  },
+  url: {
+    textDecoration: "none",
+    fontWeight: "bold",
+    color: "#000",
   },
 }));
 
@@ -21,14 +26,14 @@ const Dashboard: React.FC<IProps> = ({ models }) => {
           return (
             <Grid item xs={3} key={key}>
               <Paper className={classes?.paper}>
-                <Link to={data?.url}>{data?.displayName}</Link>
+                <Link to={data?.url} className={classes?.url}>
+                  {data?.displayName}
+                </Link>
               </Paper>
             </Grid>
           );
         })}
       </Grid>
-
-   
     </>
   );
 };

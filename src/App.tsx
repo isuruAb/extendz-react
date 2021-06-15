@@ -5,11 +5,13 @@ import Dashboard from "./components/dashboard";
 import CreateUpdateForm from "./components/form";
 import { Provider } from "react-redux";
 import store from "./redux/store";
+import ButtonAppBar from "./components/appbar";
 
 function App() {
   const models: any = Object.values(masterModels);
   return (
     <Provider store={store}>
+      <ButtonAppBar/>
       <Router>
         <Switch>
           <Route exact path={"/"}>
