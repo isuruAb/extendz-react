@@ -19,6 +19,7 @@ const CreateUpdateForm: React.FC<IProps> = ({ data }) => {
   const rowData = useSelector((state: any) => state?.data);
 
   useEffect(() => {
+    // TODO: loaded details are not persistent and will disappear on reload
     if (rowData) {
       setValues(rowData);
     }
