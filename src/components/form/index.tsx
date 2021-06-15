@@ -1,10 +1,11 @@
 import FormField from "../FormField";
 import Fab from "@material-ui/core/Fab";
 import SaveIcon from "@material-ui/icons/Save";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { ChangeEvent } from "react";
 import { useLocation } from "react-router-dom";
 import { Grid } from "@material-ui/core";
+import { useSelector } from "react-redux";
 
 interface IProps {
   data: any; //TODO: Types need to be defined
@@ -15,6 +16,13 @@ const CreateUpdateForm: React.FC<IProps> = ({ data }) => {
   const [errors, setErrors] = useState<any>({});
   const fields: any = Object.values(data?.properties);
   const location = useLocation();
+  const rowData = useSelector((state: any) => state?.data);
+
+  useEffect(() => {
+    if (rowData) {
+      setValues(rowData);
+    }
+  }, [rowData]);
 
   const handleChange = (e: ChangeEvent<HTMLInputElement>) => {
     let { name, value, checked } = e.target;

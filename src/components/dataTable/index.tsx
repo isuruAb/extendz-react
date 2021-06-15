@@ -9,8 +9,12 @@ import TablePagination from "@material-ui/core/TablePagination";
 import TableRow from "@material-ui/core/TableRow";
 import Fab from "@material-ui/core/Fab";
 import AddIcon from "@material-ui/icons/Add";
+import EditIcon from "@material-ui/icons/Edit";
+import { useDispatch } from "react-redux";
+
 import "./styles.css";
-import { Link, useLocation } from "react-router-dom";
+import { Link, useLocation, useHistory } from "react-router-dom";
+import { updateRow } from "../../redux/actions/row";
 
 interface IProps {
   data: any; //TODO: Types need to be defined
@@ -18,62 +22,74 @@ interface IProps {
 
 // Sample Column
 const columns = [
-  { id: "name", label: "Name", minWidth: 170 },
-  { id: "code", label: "ISO\u00a0Code", minWidth: 100 },
+  { id: "line1", label: "Line", minWidth: 170 },
+  { id: "line2", label: "Line2", minWidth: 100 },
   {
-    id: "population",
-    label: "Population",
+    id: "city",
+    label: "City",
     minWidth: 170,
     align: "right",
     format: (value: any) => value.toLocaleString("en-US"),
   },
   {
-    id: "size",
-    label: "Size\u00a0(km\u00b2)",
+    id: "delivery",
+    label: "Delivery",
     minWidth: 170,
     align: "right",
     format: (value: any) => value.toLocaleString("en-US"),
   },
   {
-    id: "density",
-    label: "Density",
+    id: "billing",
+    label: "Billing",
     minWidth: 170,
     align: "right",
     format: (value: any) => value.toFixed(2),
   },
 ];
 
-function createData(name: any, code: any, population: any, size: any) {
-  const density = population / size;
-  return { name, code, population, size, density };
+function createData(
+  line1: any,
+  line2: any,
+  city: any,
+  delivery: any,
+  billing: any
+) {
+  return { line1, line2, city, delivery, billing };
 }
 
 const rows = [
-  createData("India", "IN", 1324171354, 3287263),
-  createData("China", "CN", 1403500365, 9596961),
-  createData("Italy", "IT", 60483973, 301340),
-  createData("United States", "US", 327167434, 9833520),
-  createData("Canada", "CA", 37602103, 9984670),
-  createData("Australia", "AU", 25475400, 7692024),
-  createData("Germany", "DE", 83019200, 357578),
-  createData("Ireland", "IE", 4857000, 70273),
-  createData("Mexico", "MX", 126577691, 1972550),
-  createData("Japan", "JP", 126317000, 377973),
-  createData("France", "FR", 67022000, 640679),
-  createData("United Kingdom", "GB", 67545757, 242495),
-  createData("Russia", "RU", 146793744, 17098246),
-  createData("Nigeria", "NG", 200962417, 923768),
-  createData("Brazil", "BR", 210147125, 8515767),
+  createData("India", "IN", 1324171354, true, false),
+  createData("China", "CN", 1403500365, true, false),
+  createData("Italy", "IT", 60483973, true, false),
+  createData("United States", "US", 327167434, true, false),
+  createData("Canada", "CA", 37602103, true, false),
+  createData("Australia", "AU", 25475400, true, false),
+  createData("Germany", "DE", 83019200, true, false),
+  createData("Ireland", "IE", 4857000, true, false),
+  createData("Mexico", "MX", 126577691, true, false),
+  createData("Japan", "JP", 126317000, true, false),
+  createData("France", "FR", 67022000, true, false),
+  createData("United Kingdom", "GB", 67545757, true, false),
+  createData("Russia", "RU", 146793744, true, false),
+  createData("Nigeria", "NG", 200962417, true, false),
+  createData("Brazil", "BR", 210147125, true, false),
 ];
 
 const DataTable: React.FC<IProps> = ({ data }) => {
   const [page, setPage] = useState(0);
   const [rowsPerPage, setRowsPerPage] = useState(10);
-  let location = useLocation();
+  let location: any = useLocation();
+  const dispatch = useDispatch();
+  const history: any = useHistory();
 
   useEffect(() => {
     //TODO: GET request goes here
   }, []);
+
+  const handleEdit = (row: any) => {
+    dispatch(updateRow(row));
+    history.push(location?.pathname + "/update");
+  };
 
   const handleChangePage = (event: any, newPage: any) => {
     setPage(newPage);
@@ -99,6 +115,7 @@ const DataTable: React.FC<IProps> = ({ data }) => {
                     {column.label}
                   </TableCell>
                 ))}
+                <TableCell>#</TableCell>
               </TableRow>
             </TableHead>
             <TableBody>
@@ -118,10 +135,13 @@ const DataTable: React.FC<IProps> = ({ data }) => {
                           <TableCell key={column.id} align={column.align}>
                             {column.format && typeof value === "number"
                               ? column.format(value)
-                              : value}
+                              : value + ""}
                           </TableCell>
                         );
                       })}
+                      <TableCell>
+                        <EditIcon onClick={() => handleEdit(row)} />
+                      </TableCell>
                     </TableRow>
                   );
                 })}
